@@ -118,9 +118,10 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
 # エイリアス
-
+alias zshrefresh='source ~/.zshrc'
 alias la='ls -a'
 alias ll='ls -l'
+alias lla='ls -la'
 
 alias rm='rm -i'
 alias cp='cp -i'
@@ -134,6 +135,11 @@ alias sudo='sudo '
 # グローバルエイリアス
 alias -g L='| less'
 alias -g G='| grep'
+
+# git
+alias gs='git status'
+alias gb='git branch'
+alias gd='git diff'
 
 # C で標準出力をクリップボードにコピーする
 # mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
