@@ -1,48 +1,41 @@
-# 少し凝った zshrc
-# License : MIT
-# http://mollifier.mit-license.org/
-
-########################################
 # 環境変数
-export LANG=ja_JP.UTF-8
-
+export LANG=ja_JP.UTF-8   # 文字コード
+export LESSCHARSET=utf-8  # lessの文字コード
+export EDITOR=vim         # 標準エディタ
+# パス
+export PATH=$PATH:/usr/local/bin:
 
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
 
-# emacs 風キーバインドにする
-bindkey -e
+# キーバインドにする
+bindkey -e                # emacs
 
 # ヒストリの設定
-HISTFILE=~/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
+HISTFILE=~/.zsh_history   # 履歴ファイルの保存先
+HISTSIZE=1000000          # メモリに保存される履歴の件数(保存数だけ履歴を検索できる)
+SAVEHIST=1000000          # HISTFILE で指定したファイルに保存される履歴の件数
 
 # プロンプト
-# 1行表示
-# PROMPT="%~ %# "
-# 2行表示
-PROMPT="%{${fg[red]}%}[%n@%m]%{${reset_color}%} %~
-%# "
-
+PROMPT="%{${fg[magenta]}%}[%n@%m]%{${reset_color}%} %{${fg[cyan]}%}%~%{${reset_color}%}
+%(?.%{${fg[green]}%}.%{${fg[red]}%})%#%{${reset_color}%} "
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
 select-word-style default
 # ここで指定した文字は単語区切りとみなされる
 # / も区切りと扱うので、^W でディレクトリ１つ分を削除できる
-zstyle ':zle:*' word-chars " /=;@:{},|"
-zstyle ':zle:*' word-style unspecified
+zstyle ':zle:*' word-chars " /=;@:{},|" # 単語の区切り文字
+zstyle ':zle:*' word-style unspecified  # 
 
 ########################################
 # 補完
-#for zsh-completions
+# for zsh-completions
 fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -Uz compinit
-compinit -u
 # 補完機能を有効にする
-compinit
+compinit -u 
 
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -63,14 +56,17 @@ zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 
-zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
-zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
+zstyle ':vcs_info:*' actionformats '%F{red}[%b|%a]%f'
 
 function _update_vcs_info_msg() {
-    LANG=en_US.UTF-8 vcs_info
-        RPROMPT="${vcs_info_msg_0_}"
-        }
-        add-zsh-hook precmd _update_vcs_info_msg
+  LANG=en_US.UTF-8 vcs_info
+  RPROMPT="${vcs_info_msg_0_}"
+}
+add-zsh-hook precmd _update_vcs_info_msg
 
 
 ########################################
